@@ -1,0 +1,74 @@
+## Stage 1
+
+Working Game Engine
+
+ - Load map from file
+ - Game runs until end game trigger
+ - Controls rounds
+ -- Issue set
+ -- Receive/enforce subset
+ - Execute registers
+ -- Obey priority
+ -- Output sequential data
+ -- Handle interactions/errors
+ -- Accept interrupts
+ -- Identify end game triggers
+ - Manage board elements
+ - Tests
+
+## Stage 2
+
+Webservice
+
+ - FlaskSocketIO
+ - Accept basic user info
+ - Accept game settings
+ - Create room for groups
+ - Start game with room members
+
+## Stage 3
+
+Front End Framework
+
+ - SocketIO
+ - Receive events
+ -- Sort by event type
+ -- Notify user/change graphics
+ - Send events
+ -- Respond to controls
+ -- Adhere to received set
+
+## Stage 4
+
+Graphics v1
+
+ - Draw layers
+ -- Playing field
+ -- Board elements
+ -- Players
+ -- Animations/events
+ - Draw Controls
+ -- Conversation section
+ -- Register selection
+ - View panning
+
+## Stage 5
+
+PRODUCTION!!!
+
+ - Replace graphic elements with high quality ones
+ - Music
+ - Sound effects
+ - Build maps
+ - Play testing
+
+## Stage 6
+
+Profit
+
+ - Advertise
+ - Get traffic
+ - Sell ad space
+ - Get paid
+ - Maybe add some upgrades
+ - Get paid more
