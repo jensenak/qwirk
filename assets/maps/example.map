@@ -1,0 +1,65 @@
+{
+    "name":"example",
+    "fill":"open",
+    "boundary": "pit",
+    "width":10,
+    "height":10,
+    "features":[
+        {
+            "type":"northwall",
+            "x": [6, 7, 8],
+            "y": [2, 2, 2]
+        },
+        {
+            "type":"pit",
+            "x": [6],
+            "y": [3]
+        },
+            "type":"killsaw",
+            "x": [3, 9],
+            "y": [3, 3],
+        },
+        {
+            "type":"acid",
+            "x": [9],
+            "y": [2]
+        },
+        {
+            "type":"belt",
+            "x": [3, 4, 5],
+            "y": [3, 3, 3],
+            "dir": "east",
+            "pri": 100
+        },
+        {
+            "type":"belt",
+            "x":[7, 8, 9],
+            "y":[3, 3, 3],
+            "dir": "west",
+            "pri": 200
+        },
+        {
+            "type":"spinner",
+            "x":[5],
+            "y":[6],
+            "dir":"right",
+            "pri": 150
+        },
+        {
+            "type":"spawn",
+            "x": [5],
+            "y": [8]
+        },
+        {
+            "type":"flag",
+            "x":[6],
+            "y":[1],
+            "order":1
+        },
+        {
+            "type":"repair",
+            "x": [0],
+            "y": [0]
+        }
+    ]
+}
