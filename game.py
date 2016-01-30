@@ -1,3 +1,6 @@
+from threading import Thread
+from queue import Queue
+from time import sleep
 import field, player, deck
 
 #GLOBAL GAME OBJECT
@@ -9,7 +12,8 @@ class Game():
         self.players = players
         self.deck = deck
         self.io = ioModule
-
+        self.maxDamage = 8
+x
     def run(self):
         winner = False
         while not winner:
@@ -17,11 +21,7 @@ class Game():
             self.play()
             winner = self.gameStatus()
 
-    def deal(self):
-        #distribute opcodes
-        #start timer
-        #when all opcodes declared || timer expires, proceed
-        pass
+
 
     def play(self):
         # sort opcodes, perform in order with brief delay for interrupts
@@ -31,12 +31,22 @@ class Game():
         # evaluate living players, players who have reached all goals?
         return True
 
+    def qTimer(self, q, timeout):
+        sleep(timeout)
+        q.put({"src":"qtimer", "data":"done"})
+
 class IOModule():
     def notify(self, player, msg):
         print("NOTIFY: {}".format(msg))
 
     def broadcast(self, msg):
         print("BROADCAST: {}".format(msg))
+
+    def receive(self, q, player):
+        for i in range(0, 15):
+            sleep(1)
+        q.put({"src":player, "data":"done"})
+        return
 
 if __name__ == "__main__":
     game = Game(field.Field('assets/maps/example.json'),

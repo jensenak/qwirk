@@ -11,7 +11,7 @@ class Player():
     def __init__(self, wsid, name):
         self.wsid = wsid
         self.name = name
-        self.opcodes = []
+        self.opcodes = [0 for i in range(game.deck.handSize)]
         self.registers = 5
         self.damage = 0
         self.location = (0, 0)
