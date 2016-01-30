@@ -1,4 +1,5 @@
-field = {'enterSpace': lambda x, y: 0}
+import field
+from game import *
 
 class InvalidMovement(Exception):
     pass
@@ -24,30 +25,49 @@ class Player():
             return 0
         if f or s:
             x, y = xyTranslate(f, s, self.heading)
-        self.location = pathFinder(self.location, x, y)
+        try:
+            self.location = pathFinder(self.location, x, y)
+        except field.BoardInterrupt as e:
+            self.location = e.args
+            game.field.boardEffect(self)
 
 def pathFinder(start, x, y):
+    '''
+    pathFinder is a common utility for determining if a space can be entered.
+    It handles pushing, pushing with obstacles, and immediate effect board elements
+    :param start: tuple of x, y start position
+    :param x: delta x
+    :param y: delta y
+    :return: tuple final position
+    '''
     x0 = start[0]
     y0 = start[1]
     if x and y:
         raise InvalidMovement("Cannot move in both X and Y")
     if x:
         for xi in range(x0, x, x/abs(x)):
-            if field.enterSpace(xi, y0) != 0:
+            if not game.field.enterSpace(xi, y0):
                 return (xi, y0)
         return (x, y0)
     for yi in range(y0, y, y/abs(y)):
-        if field.enterSpace(x0, yi) != 0:
+        if not game.field.enterSpace(x0, yi):
             return (x0, yi)
     return (x0, y)
 
 def xyTranslate(f, s, h):
-    if h == 0:
-        return (-f, s)
-    if h == 1:
-        return (s, f)
-    if h == 2:
-        return (f, -s)
-    if h == 3:
-        return (-s, -f)
+    '''
+    Take forward, sideways movement and convert to map x, y
+    :param f: numerical forward
+    :param s: numerical sideways
+    :param h: letter heading (n, e, s, w)
+    :return: tuple (x, y) of map absolute movement
+    '''
+    if h == "n":
+        return (s, -f) #North means forward = -y right = +x
+    if h == "e":
+        return (f, s) #East means forward = +x right = +y
+    if h == "s":
+        return (-s, f) #South means forward = +y right = -x
+    if h == "w":
+        return (-f, -s) #West means forward = -x right = -y
     raise InvalidMovement("Heading must be 0 - 3")

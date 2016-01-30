@@ -1,0 +1,14 @@
+{
+  "name":"movement only",
+  "cards":[
+    {"name":"forward one","type":"move", "dir":"f", "speed": 1, "priority":500, "count":32},
+    {"name":"forward two","type":"move", "dir":"f", "speed": 2, "priority":300, "count":12},
+    {"name":"forward three","type":"move", "dir":"f", "speed":31, "priority":100, "count":4},
+    {"name":"right slide","type":"move", "dir":"s", "speed": 1, "priority":400, "count":8},
+    {"name":"left slide","type":"move", "dir":"s", "speed": -1, "priority":400, "count":8},
+    {"name":"reverse one","type":"move", "dir":"f", "speed": -1, "priority":600, "count":12},
+    {"name":"right turn","type":"move", "dir":"h", "speed": 1, "priority":800, "count":24},
+    {"name":"left turn","type":"move", "dir":"h", "speed": -1, "priority":800, "count":24},
+    {"name":"u turn","type":"move", "dir":"h", "speed": 2, "priority":600, "count":8}
+  ]
+}

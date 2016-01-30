@@ -1,0 +1,120 @@
+{
+    "name":"Boxlandia",
+    "map":[
+        ["pit0", "pit0", "pit0", "pit0", "pit0", "pit0", "pit0", "pit0", "pit0", "pit0", "pit0", "pit0"],
+        ["pit0", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "pit0"],
+        ["pit0", "tile", "flg1", "tile", "tile", "tile", "tile", "tile", "wal1", "flg2", "cnv3", "pit0"],
+        ["pit0", "cnv4", "cnv4", "cnv4", "tile", "tile", "tile", "tile", "wal7", "wal3", "cnv3", "pit0"],
+        ["pit0", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "cnv3", "pit0"],
+        ["pit0", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "cnv3", "pit0"],
+        ["pit0", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "acid", "pit0"],
+        ["pit0", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "pit0"],
+        ["pit0", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "pit0"],
+        ["pit0", "tile", "spwn", "tile", "tile", "tile", "wal2", "lsr2", "tile", "tile", "tile", "pit0"],
+        ["pit0", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "flg3", "pit0"],
+        ["pit0", "pit0", "pit0", "pit0", "pit0", "pit0", "pit0", "pit0", "pit0", "pit0", "pit0", "pit0"]
+    ],
+    "defs":{
+        "default":{
+            "enter": "nesw",
+            "sprite":{
+                "aniFrames": 1,
+                "stFrame": 0
+            }
+        }
+        "pit0": {
+            "name":"bottomless_pit",
+            "effectTiming": "now",
+            "damage": 999,
+            "damageType": "fall",
+            "sprite": {
+                "file":"bottomless_pit.png"
+            }
+        },
+        "spwn": {
+            "name":"spawn_point",
+            "sprite": {
+                "parent": "tile",
+                "file": "spawn.png"
+            }
+        },
+        "tile":{
+            "name": "floor_tile",
+            "sprite": {
+                "file": "metal_tile.png",
+                "flange": 5
+            }
+        },
+        "flg": {
+            "name": "flag",
+            "trigger": "flag",
+            "health": 1,
+            "sprite": {
+                "parent": "tile",
+                "file": "flag.png"
+            }
+        },
+        "flg1":{"parent": "flg"},
+        "flg2":{"parent": "flg", "req": "flg1", "sprite":{"stFrame":1}},
+        "flg3":{"parent": "flg", "req": "flg2", "sprite":{"stFrame":2}},
+        "cnv": {
+            "name": "conveyor_belt",
+            "speed": 1,
+            "sprite": {
+                "file": "belt.png",
+                "aniFrames": 3
+            }
+        },
+        "cnv1": {"parent":"cnv", "dir": "n", "sprite": {"stFrame":0}},
+        "cnv2": {"parent":"cnv", "dir": "e", "sprite": {"stFrame":3}},
+        "cnv3": {"parent":"cnv", "dir": "s", "sprite": {"stFrame":6}},
+        "cnv4": {"parent":"cnv", "dir": "w", "sprite": {"stFrame":9}},
+        "wal": {
+            "name": "wall",
+            "sprite":{
+                "file": "wall.png",
+                "parent":"tile"
+            }
+        },
+        "wal1": {"parent":"wal", "enter":"esw"},
+        "wal2": {"parent":"wal", "enter":"nsw", "sprite":{"stFrame":1}},
+        "wal3": {"parent":"wal", "enter":"new", "sprite":{"stFrame":2}},
+        "wal4": {"parent":"wal", "enter":"nes", "sprite":{"stFrame":3}},
+        "wal5": {"parent":"wal", "enter":"sw", "sprite":{"stFrame":4}},
+        "wal6": {"parent":"wal", "enter":"nw", "sprite":{"stFrame":5}},
+        "wal7": {"parent":"wal", "enter":"ne", "sprite":{"stFrame":6}},
+        "wal8": {"parent":"wal", "enter":"es", "sprite":{"stFrame":7}},
+        "wal9": {"parent":"wal", "enter":"", "sprite":{"stFrame":8}},
+        "acid": {
+            "name": "acid",
+            "damage": 3,
+            "damageType": "chemical",
+            "sprite": {
+                "file": "acid.png",
+                "aniFrames":8
+            }
+        },
+        "lsr":{
+            "name": "laser_turret",
+            "enter": "",
+            "damage": 1,
+            "damageType": "projectile",
+            "damageSprite": {
+                "file": "laser.png",
+                "stFrame":16,
+                "aniFrames": 8
+            },
+            "action_sprite":{
+                "file": "laser.png",
+                "aniFrames": 3
+            }
+            "sprite":{
+                "file": "laser.png"
+            }
+        }
+        "lsr1":{"parent": "lsr", "dir":"n", "actionSprite": {"stFrame": 4}},
+        "lsr2":{"parent": "lsr", "dir":"e", "actionSprite": {"stFrame": 7}, "sprite": {"stFrame": 1}},
+        "lsr3":{"parent": "lsr", "dir":"s", "actionSprite": {"stFrame": 10}, "sprite": {"stFrame": 2}},
+        "lsr4":{"parent": "lsr", "dir":"w", "actionSprite": {"stFrame": 13}, "sprite": {"stFrame": 3}}
+    }
+}

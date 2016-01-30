@@ -1,9 +1,14 @@
+import field, player, deck
+
+#GLOBAL GAME OBJECT
+game = ""
+
 class Game():
-    def __init__(self, room, map, players, deck):
-        self.room = room
-        self.map = map
+    def __init__(self, field, players, deck, ioModule):
+        self.field = field
         self.players = players
         self.deck = deck
+        self.io = ioModule
 
     def run(self):
         winner = False
@@ -25,3 +30,17 @@ class Game():
     def gameStatus(self):
         # evaluate living players, players who have reached all goals?
         return True
+
+class IOModule():
+    def notify(self, player, msg):
+        print("NOTIFY: {}".format(msg))
+
+    def broadcast(self, msg):
+        print("BROADCAST: {}".format(msg))
+
+if __name__ == "__main__":
+    game = Game(field.Field('assets/maps/example.json'),
+                [player.Player('1234-asdf', 'Bob')],
+                deck.Deck('assets/decks/deck.json'),
+                IOModule())
+    game.run()
