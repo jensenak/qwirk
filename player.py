@@ -1,5 +1,4 @@
 import field
-from game import *
 
 class InvalidMovement(Exception):
     pass

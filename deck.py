@@ -4,7 +4,6 @@ from time import sleep
 import json
 import random
 
-from game import game
 
 class Deck():
     def __init__(self, file):

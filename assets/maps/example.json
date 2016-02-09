@@ -21,7 +21,7 @@
                 "aniFrames": 1,
                 "stFrame": 0
             }
-        }
+        },
         "pit0": {
             "name":"bottomless_pit",
             "effectTiming": "now",
@@ -107,11 +107,11 @@
             "action_sprite":{
                 "file": "laser.png",
                 "aniFrames": 3
-            }
+            },
             "sprite":{
                 "file": "laser.png"
             }
-        }
+        },
         "lsr1":{"parent": "lsr", "dir":"n", "actionSprite": {"stFrame": 4}},
         "lsr2":{"parent": "lsr", "dir":"e", "actionSprite": {"stFrame": 7}, "sprite": {"stFrame": 1}},
         "lsr3":{"parent": "lsr", "dir":"s", "actionSprite": {"stFrame": 10}, "sprite": {"stFrame": 2}},

@@ -2,9 +2,8 @@ from threading import Thread
 from time import sleep
 import re
 import field, player, deck
+import settings
 
-#GLOBAL GAME OBJECT
-game = ""
 
 class Game():
     def __init__(self, field, players, deck, ioModule):
@@ -55,6 +54,7 @@ class IOModule():
         return
 
 if __name__ == "__main__":
+    settings.init()
     game = Game(field.Field('assets/maps/example.json'),
                 [player.Player('1234-asdf', 'Bob')],
                 deck.Deck('assets/decks/deck.json'),
