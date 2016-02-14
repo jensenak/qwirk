@@ -1,3 +1,4 @@
+from game import GameObj
 import json
 
 class BoardInterrupt(Exception):
@@ -6,6 +7,7 @@ class BoardInterrupt(Exception):
 class Field():
     def __init__(self, file):
         with open(file, 'r') as f:
+            self.game = GameObj.game
             self.field = json.load(f)
 
     def get(self, x, y):

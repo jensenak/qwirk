@@ -1,3 +1,4 @@
+from game import GameObj
 import field
 
 class InvalidMovement(Exception):
@@ -8,9 +9,10 @@ class Player():
     Player is a class to keep track of the robot and its status, as well as the players' "cards" or opcodes.
     '''
     def __init__(self, wsid, name):
+        self.game = GameObj.game
         self.wsid = wsid
         self.name = name
-        self.opcodes = [0 for i in range(game.deck.handSize)]
+        self.opcodes = [0 for i in range(self.game.deck.handSize)]
         self.registers = 5
         self.damage = 0
         self.location = (0, 0)
@@ -28,7 +30,7 @@ class Player():
             self.location = pathFinder(self.location, x, y)
         except field.BoardInterrupt as e:
             self.location = e.args
-            game.field.boardEffect(self)
+            self.game.field.boardEffect(self)
 
 def pathFinder(start, x, y):
     '''
@@ -45,11 +47,11 @@ def pathFinder(start, x, y):
         raise InvalidMovement("Cannot move in both X and Y")
     if x:
         for xi in range(x0, x, x/abs(x)):
-            if not game.field.enterSpace(xi, y0):
+            if not self.game.field.enterSpace(xi, y0):
                 return (xi, y0)
         return (x, y0)
     for yi in range(y0, y, y/abs(y)):
-        if not game.field.enterSpace(x0, yi):
+        if not self.game.field.enterSpace(x0, yi):
             return (x0, yi)
     return (x0, y)
 

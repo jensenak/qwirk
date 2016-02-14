@@ -1,12 +1,15 @@
+from game import GameObj
 from queue import Queue
 from threading import Thread
 from time import sleep
+import settings
 import json
 import random
 
 
 class Deck():
     def __init__(self, file):
+        self.game = GameObj.game
         self.deck = []
         self.handSize = 7
         with open(file, 'r') as f:
@@ -29,7 +32,7 @@ class Deck():
         :param opcodes: list of opcodes to be assigned to player
         :return: valid list of opcodes
         '''
-        slicelen = min((game.maxDamage-player.damage), len(player.opcodes))
+        slicelen = min((self.game.maxDamage-player.damage), len(player.opcodes))
         avail = player.opcodes[:slicelen] # copy unlocked opcodes
         newops = []
         for i in opcodes:
@@ -45,14 +48,14 @@ class Deck():
     def deal(self):
         async = {}
         q = Queue(maxsize=0)
-        for j in range(0, len(game.players)):
-            for j in range(0, min(self.handSize, game.maxDamage - game.players[i].damage)):
+        for j in range(0, len(self.game.players)):
+            for j in range(0, min(self.handSize, self.game.maxDamage - self.game.players[i].damage)):
                 #As player sustains more and more damage, opcodes get locked
                 op = self.deck.pop()
-                game.players[j].opcodes[j] = op
+                self.game.players[j].opcodes[j] = op
             #After assigning cards, start a thread to receive input from player
-            t = Thread(target=game.io.receive, args=(q, game.players[j], 300))
-            async[game.players[j].name] = {"q":q, "t":t}
+            t = Thread(target=self.game.io.receive, args=(q, self.game.players[j], 300))
+            async[self.game.players[j].name] = {"q":q, "t":t}
             t.start()
 
         expire = Thread(target=qTimer, args=(q, 90))

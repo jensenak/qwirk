@@ -2,21 +2,22 @@ from threading import Thread
 from time import sleep
 import re
 import field, player, deck
-import settings
 
+class GameObj():
+    game = None
 
 class Game():
-    def __init__(self, field, players, deck, ioModule):
-        self.field = field
-        self.players = players
-        self.deck = deck
-        self.io = ioModule
+    def __init__(self):
+        self.field = None
+        self.players = None
+        self.deck = None
+        self.io = None
         self.maxDamage = 8
 
     def run(self):
         winner = False
         while not winner:
-            self.deal()
+            self.deck.deal()
             self.play()
             winner = self.gameStatus()
 
@@ -54,9 +55,9 @@ class IOModule():
         return
 
 if __name__ == "__main__":
-    settings.init()
-    game = Game(field.Field('assets/maps/example.json'),
-                [player.Player('1234-asdf', 'Bob')],
-                deck.Deck('assets/decks/deck.json'),
-                IOModule())
+    game = Game()
+    GameObj.game = game
+    game.field = field.Field('assets/maps/example.json')
+    game.players = player.Player('0000-aaaa', 'Bob')
+    game.deck = deck.Deck('assets/decks/deck.json')
     game.run()
