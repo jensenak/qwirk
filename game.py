@@ -1,7 +1,6 @@
 from threading import Thread
 from time import sleep
 import re
-import field, player, deck
 
 class GameObj():
     game = None
@@ -54,10 +53,3 @@ class IOModule():
         q.put({"src":player, "data":final})
         return
 
-if __name__ == "__main__":
-    game = Game()
-    GameObj.game = game
-    game.field = field.Field('assets/maps/example.json')
-    game.players = player.Player('0000-aaaa', 'Bob')
-    game.deck = deck.Deck('assets/decks/deck.json')
-    game.run()

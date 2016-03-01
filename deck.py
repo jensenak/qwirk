@@ -14,7 +14,7 @@ class Deck():
         self.handSize = 7
         with open(file, 'r') as f:
             d = json.load(f)
-        for card in d['deck']:
+        for card in d['cards']:
             for c in range(0, card['count']):
                 r = random.randint(0, 100)
                 k = card.copy()
@@ -48,17 +48,17 @@ class Deck():
     def deal(self):
         async = {}
         q = Queue(maxsize=0)
-        for j in range(0, len(self.game.players)):
+        for i in range(0, len(self.game.players)):
             for j in range(0, min(self.handSize, self.game.maxDamage - self.game.players[i].damage)):
                 #As player sustains more and more damage, opcodes get locked
                 op = self.deck.pop()
-                self.game.players[j].opcodes[j] = op
+                self.game.players[i].opcodes[j] = op
             #After assigning cards, start a thread to receive input from player
-            t = Thread(target=self.game.io.receive, args=(q, self.game.players[j], 300))
-            async[self.game.players[j].name] = {"q":q, "t":t}
+            t = Thread(target=self.game.io.receive, args=(q, self.game.players[i], 300))
+            async[self.game.players[i].name] = {"q":q, "t":t}
             t.start()
 
-        expire = Thread(target=qTimer, args=(q, 90))
+        expire = Thread(target=self.qTimer, args=(q, 90))
         expire.start()
         while True:
             resp = q.get(block=True)
