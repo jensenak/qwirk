@@ -46,6 +46,11 @@ class Deck():
         return newops
 
     def deal(self):
+        '''
+        give cards to each player based on how many damage points he/she has
+        receive card order from each player within a time limit
+        :return:
+        '''
         async = {}
         q = Queue(maxsize=0)
         for i in range(0, len(self.game.players)):
@@ -54,18 +59,20 @@ class Deck():
                 op = self.deck.pop()
                 self.game.players[i].opcodes[j] = op
             #After assigning cards, start a thread to receive input from player
-            t = Thread(target=self.game.io.receive, args=(q, self.game.players[i], 300))
-            async[self.game.players[i].name] = {"q":q, "t":t}
+            #This thread is meant to run longer than allowed just to make sure we never cut the player short
+            t = Thread(target=self.game.io.receive, args=(q, self.game.players[i]))
+            async[self.game.players[i].name] = {"q":q, "t":t, "recv": False}
             t.start()
 
-        expire = Thread(target=self.qTimer, args=(q, 90))
+        expire = Thread(target=self.qTimer, args=(q, 30))
         expire.start()
-        while True:
+
+        while False in [v['recv'] for k, v in async.items()]:
             resp = q.get(block=True)
             if resp['src'] == "qtimer":
                 break #Out of time, all unrecv'd players will retain card order as dealt
-            resp['src'].opcodes = self.validate(resp['src'], resp['data'])
-            recvd.append(resp['src'])
+            resp['src'].opcodes = self.coerceRegisters(resp['src'], resp['data'])
+            async[resp['src'].name]['recv'] = True
         # Note that dealing puts opcodes in a player's opcode list. If they didn't respond
         # during the window above, they'll just retain the opcodes as dealt
 

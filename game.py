@@ -12,17 +12,24 @@ class Game():
         self.deck = None
         self.io = None
         self.maxDamage = 8
+        self.round = 0
 
     def run(self):
         winner = False
         while not winner:
+            self.round += 1
+            print(self.round)
             self.deck.deal()
             self.play()
             winner = self.gameStatus()
 
+        print("Bob wins!")
+        return
+
     def play(self):
         # sort opcodes, perform in order with brief delay for interrupts
-        pass
+        print("Playing round {}".format(self.round))
+        return
 
     def gameStatus(self):
         # evaluate living players, players who have reached all goals?
@@ -35,13 +42,21 @@ class IOModule():
     def broadcast(self, msg):
         print("BROADCAST: {}".format(msg))
 
-    def receive(self, q, player, timeout):
-        expire = Thread(target=sleep, args=(timeout,))
-        expire.start()
-        while expire.isAlive:
-            print("Player {}".format(player.name))
-            print([op.name for op in player.opcodes])
-            nums = input('Type comma separated numbers for desired card order: ')
+    def receive(self, q, player):
+        '''
+        Receive user input
+        This runs as a thread, and currently doesn't have a timeout of any kind.
+        Risk of leaking threads.
+        :param q:
+        :param player:
+        :return:
+        '''
+        # expire = Thread(target=sleep, args=(timeout,))
+        # expire.start()
+        # while expire.isAlive:
+        print("Player {}".format(player.name))
+        print([op['name'] for op in player.opcodes])
+        nums = input('Type comma separated numbers for desired card order: ')
         choices = map(int, re.findall('\d', nums))
         final = []
         try:
