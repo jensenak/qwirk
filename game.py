@@ -28,7 +28,14 @@ class Game():
 
     def play(self):
         # sort opcodes, perform in order with brief delay for interrupts
-        print("Playing round {}".format(self.round))
+        for i in range(0, 5):
+            cards = []
+            for j in range(0, len(self.players)):
+                cards.append({"player": self.players[j].name, "code": self.players[j].opcodes[i]})
+            cards.sort(key=lambda card: card['code']['priority'])
+            for k in cards:
+                print("Player {} plays {}".format(k['player'], k['code']['name']))
+
         return
 
     def gameStatus(self):

@@ -19,6 +19,7 @@ class Deck():
                 r = random.randint(0, 100)
                 k = card.copy()
                 k['priority'] += r
+                del k['count']
                 self.deck.append(k)
         random.shuffle(self.deck)
 
@@ -64,7 +65,7 @@ class Deck():
             async[self.game.players[i].name] = {"q":q, "t":t, "recv": False}
             t.start()
 
-        expire = Thread(target=self.qTimer, args=(q, 30))
+        expire = Thread(target=self.qTimer, args=(q, 60))
         expire.start()
 
         while False in [v['recv'] for k, v in async.items()]:
@@ -75,6 +76,11 @@ class Deck():
             async[resp['src'].name]['recv'] = True
         # Note that dealing puts opcodes in a player's opcode list. If they didn't respond
         # during the window above, they'll just retain the opcodes as dealt
+        print("All cards dealt")
+        for i in range(0, len(self.game.players)):
+            print("----===={}====----".format(self.game.players[i].name))
+            for j in range(0, min(self.handSize, self.game.maxDamage - self.game.players[i].damage)):
+                print(self.game.players[i].opcodes[j])
 
     def qTimer(self, q, timeout):
         sleep(timeout)
