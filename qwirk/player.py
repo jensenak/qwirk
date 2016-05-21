@@ -1,5 +1,7 @@
 from game import GameObj
-import field
+
+from qwirk import field
+
 
 class InvalidMovement(Exception):
     pass

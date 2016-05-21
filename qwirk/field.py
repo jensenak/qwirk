@@ -1,14 +1,13 @@
-from game import GameObj
-import json
+from qwirk.game import GameObj
+
 
 class BoardInterrupt(Exception):
     pass
 
 class Field():
-    def __init__(self, file):
-        with open(file, 'r') as f:
-            self.game = GameObj.game
-            self.field = json.load(f)
+    def __init__(self, settings):
+        self.game = GameObj.game
+        self.field = settings.rawField()
 
     def get(self, x, y):
         tmp = self.field['defs'][self.field['map'][x][y]]

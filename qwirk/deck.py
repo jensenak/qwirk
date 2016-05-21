@@ -1,18 +1,21 @@
-from game import GameObj
+import random
 from queue import Queue
 from threading import Thread, Timer
-import json
-import random
 
+from qwirk.game import GameObj
+
+class BadOptions(Exception):
+    pass
+
+class BadDeck(Exception):
+    pass
 
 class Deck():
-    def __init__(self, file):
+    def __init__(self, settings):
         self.game = GameObj.game
         self.deck = []
-        self.handSize = 7
-        with open(file, 'r') as f:
-            d = json.load(f)
-        for card in d['cards']:
+        self.settings = settings
+        for card in settings.rawDeck()['cards']:
             for c in range(0, card['count']):
                 r = random.randint(0, 100)
                 k = card.copy()
@@ -22,7 +25,7 @@ class Deck():
         random.shuffle(self.deck)
 
     def coerceRegisters(self, player, opcodes):
-        '''
+        """
         We're enforcing 3 things:
         1) Player has only changed unlocked cards
         2) Player has only used cards dealt to him
@@ -30,8 +33,8 @@ class Deck():
         :param player: player object
         :param opcodes: list of opcodes to be assigned to player
         :return: valid list of opcodes
-        '''
-        slicelen = min((self.game.maxDamage-player.damage), len(player.opcodes))
+        """
+        slicelen = min((self.settings.maxDamage-player.damage), len(player.opcodes))
         avail = player.opcodes[:slicelen] # copy unlocked opcodes
         newops = []
         for i in opcodes:
@@ -53,7 +56,7 @@ class Deck():
         async = {}
         q = Queue(maxsize=0)
         for i in range(0, len(self.game.players)):
-            for j in range(0, min(self.handSize, self.game.maxDamage - self.game.players[i].damage)):
+            for j in range(0, min(self.settings.handSize, self.settings.maxDamage - self.game.players[i].damage)):
                 #As player sustains more and more damage, opcodes get locked
                 op = self.deck.pop()
                 self.game.players[i].opcodes[j] = op
@@ -78,5 +81,4 @@ class Deck():
         print("All cards dealt")
         for i in range(0, len(self.game.players)):
             print("----===={}====----".format(self.game.players[i].name))
-            for j in range(0, min(self.handSize, self.game.maxDamage - self.game.players[i].damage)):
-                print(self.game.players[i].opcodes[j])
+            print(self.game.players[i].opcodes)

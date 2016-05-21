@@ -7,11 +7,11 @@ class GameObj():
 
 class Game():
     def __init__(self):
+        self.settings = None
         self.field = None
         self.players = None
         self.deck = None
         self.io = None
-        self.maxDamage = 8
         self.round = 0
 
     def run(self):
