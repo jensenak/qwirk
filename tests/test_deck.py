@@ -1,13 +1,17 @@
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
+
 from qwirk.deck import Deck, BadOptions, BadDeck
 import unittest
 
 class testSettings:
     def __init__(self, handsize, cards):
-        self.handSize = 7
+        self.handSize = handsize
         self.cards = cards
 
     def rawDeck(self):
-        return cards
+        return self.cards
 
 validCards1 = {
     "name":"movement only",
@@ -50,3 +54,6 @@ class TestConstructor(unittest.TestCase):
         self.assertTrue(Deck(testSettings(validHand1, validCards2)))
         with self.assertRaises(BadDeck):
             Deck(testSettings(validHand1, invalidCards))
+
+if __name__ == "__main__":
+    unittest.main()

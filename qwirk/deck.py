@@ -15,14 +15,21 @@ class Deck():
         self.game = GameObj.game
         self.deck = []
         self.settings = settings
-        for card in settings.rawDeck()['cards']:
-            for c in range(0, card['count']):
-                r = random.randint(0, 100)
-                k = card.copy()
-                k['priority'] += r
-                del k['count']
-                self.deck.append(k)
-        random.shuffle(self.deck)
+        if settings.handSize < 5:
+            raise BadOptions("Not enough cards to play")
+        if settings.handSize > 10: 
+            raise BadOptions("Too many cards in hand size")
+        try:
+            for card in settings.rawDeck()['cards']:
+                for c in range(0, card['count']):
+                    r = random.randint(0, 100)
+                    k = card.copy()
+                    k['priority'] += r
+                    del k['count']
+                    self.deck.append(k)
+            random.shuffle(self.deck)
+        except Exception as e:
+            raise BadDeck(str(e))
 
     def coerceRegisters(self, player, opcodes):
         """
