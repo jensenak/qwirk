@@ -17,7 +17,7 @@ class Deck():
         self.settings = settings
         if settings.handSize < 5:
             raise BadOptions("Not enough cards to play")
-        if settings.handSize > 10: 
+        if settings.handSize > 10:
             raise BadOptions("Too many cards in hand size")
         try:
             for card in settings.rawDeck()['cards']:
@@ -51,8 +51,10 @@ class Deck():
                 newops.append(i)
             except ValueError:
                 # Value error raised when opcode not in available list
-                newops.append(avail.pop) # Player shouldn't have cheated... now everything's messed up
-        return newops
+                newops.append(avail.pop()) # Player shouldn't have cheated... now everything's messed up
+        # Set player's opcodes to the new ones + whatever was already there.
+        player.opcodes = newops + avail + player.opcodes[slicelen:]
+
 
     def deal(self):
         '''
@@ -80,7 +82,7 @@ class Deck():
             resp = q.get(block=True)
             if resp['src'] == "qtimer":
                 break #Out of time, all unrecv'd players will retain card order as dealt
-            resp['src'].opcodes = self.coerceRegisters(resp['src'], resp['data'])
+            self.coerceRegisters(resp['src'], resp['data'])
             async[resp['src'].name]['recv'] = True
         # Note that dealing puts opcodes in a player's opcode list. If they didn't respond
         # during the window above, they'll just retain the opcodes as dealt
